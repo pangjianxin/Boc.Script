@@ -1,0 +1,16 @@
+{
+  "set": [
+    {
+      "name": "内蒙古征信服务有限公司公司",
+      "uniscId": "12345465",
+      "emps": [
+        { "empName": "吴恩其", "position": "总经理" },
+        { "empName": "庞建新", "position": "工程师" }
+      ],
+      "os": [
+        { "comName": "公司A", "scale": "30%" },
+        { "comName": "公司B", "position": "70%" }
+      ]
+    }
+  ]
+}

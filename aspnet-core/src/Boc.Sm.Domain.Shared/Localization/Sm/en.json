@@ -1,0 +1,10 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:Category": "分类管理",
+    "Permission:Script": "脚本管理",
+    "Permission:Create": "创建",
+    "Permission:Update": "更新",
+    "Permission:Delete": "删除"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "vuetify-template",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@fontsource/roboto": "^5.0.13",
+    "@vueuse/core": "^10.9.0",
+    "axios": "^1.6.7",
+    "core-js": "^3.37.0",
+    "dayjs": "^1.11.11",
+    "dexie": "^4.0.4",
+    "form-data": "^4.0.0",
+    "jwt-decode": "^4.0.0",
+    "oidc-client-ts": "^3.0.1",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "vue": "^3.4.26",
+    "vue-router": "^4.3.2",
+    "vuetify": "3.6.3"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.24.5",
+    "@mdi/font": "7.4.47",
+    "@mdi/js": "^7.4.47",
+    "@types/node": "^20.12.8",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.25.0",
+    "openapi-typescript-codegen": "^0.29.0",
+    "sass": "^1.76.0",
+    "typescript": "^5.4.5",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-fonts": "^1.1.1",
+    "unplugin-vue-router": "^0.8.6",
+    "vite": "^5.2.11",
+    "vite-plugin-vue-layouts": "^0.11.0",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vue-tsc": "^2.0.16"
+  }
+}
