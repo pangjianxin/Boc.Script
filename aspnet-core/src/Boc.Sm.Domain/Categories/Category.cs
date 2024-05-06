@@ -21,5 +21,10 @@ namespace Boc.Sm.Categories
             ParentId = parentId;
             Title = title;
         }
+
+        public void Update(string title)
+        {
+            Title = title;
+        }
     }
 }

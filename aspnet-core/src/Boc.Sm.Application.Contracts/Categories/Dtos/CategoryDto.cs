@@ -10,6 +10,4 @@ public class CategoryDto : AuditedEntityDto<Guid>
     public Guid? ParentId { get; set; }
 
     public string Title { get; set; } = default!;
-
-    public ICollection<ScriptCategoryDto>? ScriptCategories { get; set; }
 }

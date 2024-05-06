@@ -10,8 +10,8 @@ public interface ICategoryAppService :
         CategoryDto, 
         Guid, 
         CategoryGetListInput,
-        CreateUpdateCategoryDto,
-        CreateUpdateCategoryDto>
+        CreateCategoryDto,
+        UpdateCategoryDto>
 {
 
 }

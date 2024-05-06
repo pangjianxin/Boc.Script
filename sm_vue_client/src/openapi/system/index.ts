@@ -7,8 +7,9 @@ export { SystemClient } from './SystemClient';
 
 export { AutoFiltererEnumsCombineType } from './models/AutoFiltererEnumsCombineType';
 export type { BocSmCategoriesDtosCategoryDto } from './models/BocSmCategoriesDtosCategoryDto';
-export type { BocSmCategoriesDtosCreateUpdateCategoryDto } from './models/BocSmCategoriesDtosCreateUpdateCategoryDto';
+export type { BocSmCategoriesDtosCreateCategoryDto } from './models/BocSmCategoriesDtosCreateCategoryDto';
 export type { BocSmCategoriesDtosScriptCategoryDto } from './models/BocSmCategoriesDtosScriptCategoryDto';
+export type { BocSmCategoriesDtosUpdateCategoryDto } from './models/BocSmCategoriesDtosUpdateCategoryDto';
 export type { BocSmIdentityOptionsDtosIdentityPasswordOptionsSettingDto } from './models/BocSmIdentityOptionsDtosIdentityPasswordOptionsSettingDto';
 export type { BocSmScriptsDtosCreateScriptDto } from './models/BocSmScriptsDtosCreateScriptDto';
 export type { BocSmScriptsDtosScriptDto } from './models/BocSmScriptsDtosScriptDto';

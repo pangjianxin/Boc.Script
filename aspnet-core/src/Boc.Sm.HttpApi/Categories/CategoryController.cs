@@ -20,14 +20,14 @@ public class CategoryController : SmController, ICategoryAppService
 
     [HttpPost]
     [Route("")]
-    public virtual Task<CategoryDto> CreateAsync(CreateUpdateCategoryDto input)
+    public virtual Task<CategoryDto> CreateAsync(CreateCategoryDto input)
     {
         return _service.CreateAsync(input);
     }
 
     [HttpPut]
     [Route("{id}")]
-    public virtual Task<CategoryDto> UpdateAsync(Guid id, CreateUpdateCategoryDto input)
+    public virtual Task<CategoryDto> UpdateAsync(Guid id, UpdateCategoryDto input)
     {
         return _service.UpdateAsync(id, input);
     }

@@ -3,7 +3,7 @@ using System;
 namespace Boc.Sm.Categories.Dtos;
 
 [Serializable]
-public class CreateUpdateCategoryDto
+public class CreateCategoryDto
 {
     public Guid? ParentId { get; set; }
 

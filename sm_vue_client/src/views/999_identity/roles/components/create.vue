@@ -54,10 +54,10 @@ defineProps({
     show: { type: Boolean, required: true }
 })
 
-const emits = defineEmits(["update:show", "done"]);
+const emits = defineEmits(["update:modelValue", "done"]);
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 
 
@@ -67,7 +67,7 @@ const onSubmitCreateIdentityRole = async (e: SubmitEventPromise) => {
     if (createFormValid.value) {
         const created = await submitCreateIdentityRole();
         emits("done", created, "create");
-        emits("update:show", false);
+        emits("update:modelValue", false);
     }
 
 }

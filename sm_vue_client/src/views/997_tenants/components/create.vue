@@ -62,19 +62,19 @@ defineProps({
     }
 });
 
-const emits = defineEmits(["update:show", "done"]);
+const emits = defineEmits(["update:modelValue", "done"]);
 
 const onSubmit = async (e: SubmitEventPromise) => {
     createFormValid.value = (await e).valid;
     if (createFormValid.value) {
         const created = await submit();
         emits("done", created);
-        emits("update:show", false);
+        emits("update:modelValue", false);
     }
 }
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 </script>
 

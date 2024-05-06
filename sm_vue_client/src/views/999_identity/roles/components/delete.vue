@@ -41,16 +41,16 @@ const props = defineProps({
     },
 });
 
-const emits = defineEmits(["update:show", "done"]);
+const emits = defineEmits(["update:modelValue", "done"]);
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 
 const onDelete = async (e: SubmitEventPromise) => {
     e.preventDefault();
     await systemClient.role.roleDelete({ id: props.role!.id! });
-    emits("update:show", false);
+    emits("update:modelValue", false);
     emits("done", props.role, "remove");
 }
 </script>

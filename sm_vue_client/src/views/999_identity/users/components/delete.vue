@@ -42,17 +42,17 @@ const props = defineProps({
     },
 });
 
-const emits = defineEmits(["update:show", "done"]);
+const emits = defineEmits(["update:modelValue", "done"]);
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 
 const onDelete = async (e: SubmitEventPromise) => {
     e.preventDefault();
     await systemClient.user.userDelete({ id: props.user?.id! });
     emits("done", props.user, "remove");
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 </script>
 

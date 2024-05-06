@@ -2,8 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type BocSmCategoriesDtosCreateUpdateCategoryDto = {
-    parentId?: string | null;
+export type BocSmCategoriesDtosUpdateCategoryDto = {
     title?: string | null;
 };
 

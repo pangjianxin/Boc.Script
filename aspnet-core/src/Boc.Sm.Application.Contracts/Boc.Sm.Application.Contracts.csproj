@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Categories\Dtos\juxoyvlj.vgp~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Boc.Sm.Domain.Shared\Boc.Sm.Domain.Shared.csproj" />
   </ItemGroup>
 

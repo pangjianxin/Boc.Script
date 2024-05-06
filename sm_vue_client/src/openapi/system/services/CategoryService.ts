@@ -4,7 +4,8 @@
 /* eslint-disable */
 import type { AutoFiltererEnumsCombineType } from '../models/AutoFiltererEnumsCombineType';
 import type { BocSmCategoriesDtosCategoryDto } from '../models/BocSmCategoriesDtosCategoryDto';
-import type { BocSmCategoriesDtosCreateUpdateCategoryDto } from '../models/BocSmCategoriesDtosCreateUpdateCategoryDto';
+import type { BocSmCategoriesDtosCreateCategoryDto } from '../models/BocSmCategoriesDtosCreateCategoryDto';
+import type { BocSmCategoriesDtosUpdateCategoryDto } from '../models/BocSmCategoriesDtosUpdateCategoryDto';
 import type { VoloAbpApplicationDtosPagedResultDtoOfCategoryDto } from '../models/VoloAbpApplicationDtosPagedResultDtoOfCategoryDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -17,7 +18,7 @@ export class CategoryService {
     public categoryCreate({
         requestBody,
     }: {
-        requestBody?: BocSmCategoriesDtosCreateUpdateCategoryDto,
+        requestBody?: BocSmCategoriesDtosCreateCategoryDto,
     }): CancelablePromise<BocSmCategoriesDtosCategoryDto> {
         return this.httpRequest.request({
             method: 'POST',
@@ -40,12 +41,14 @@ export class CategoryService {
      */
     public categoryGetList({
         filter,
+        parentId,
         skipCount,
         maxResultCount,
         sorting,
         combineWith,
     }: {
         filter?: string,
+        parentId?: string,
         skipCount?: number,
         maxResultCount?: number,
         sorting?: string,
@@ -56,6 +59,7 @@ export class CategoryService {
             url: '/api/app/category',
             query: {
                 'Filter': filter,
+                'ParentId': parentId,
                 'SkipCount': skipCount,
                 'MaxResultCount': maxResultCount,
                 'Sorting': sorting,
@@ -80,7 +84,7 @@ export class CategoryService {
         requestBody,
     }: {
         id: string,
-        requestBody?: BocSmCategoriesDtosCreateUpdateCategoryDto,
+        requestBody?: BocSmCategoriesDtosUpdateCategoryDto,
     }): CancelablePromise<BocSmCategoriesDtosCategoryDto> {
         return this.httpRequest.request({
             method: 'PUT',

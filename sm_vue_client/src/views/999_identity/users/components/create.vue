@@ -118,10 +118,10 @@ const props = defineProps({
     }
 })
 
-const emits = defineEmits(["update:show", "done"]);
+const emits = defineEmits(["update:modelValue", "done"]);
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 
 const onSubmitCreateIdentityUser = async (e: SubmitEventPromise) => {
@@ -129,7 +129,7 @@ const onSubmitCreateIdentityUser = async (e: SubmitEventPromise) => {
     if (createFormValid.value) {
         const created = await submitCreateIdentityUser();
         emits("done", created, "create");
-        emits("update:show", false);
+        emits("update:modelValue", false);
     }
 }
 
