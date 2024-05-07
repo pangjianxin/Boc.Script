@@ -1,5 +1,4 @@
 <template>
-
     <v-row>
         <v-col :cols="4" :md="3" :sm="12">
             <v-card min-height="600" class="overflow-y-auto">
@@ -19,18 +18,33 @@
                             </v-icon>
                         </template>
                         <template #append="{ isActive, item }">
-                            <v-btn v-if="isActive" :prepend-icon="mdiPlusCircle" variant="text" size="small"
-                                color="primary" @click.prevent="onCreate(item.id)">
-                                子类
-                            </v-btn>
-                            <v-btn v-if="isActive" :prepend-icon="mdiTagEdit" variant="text" size="small"
-                                color="warning" class="ml-2" @click.prevent="onUpdate(item.id)">
-                                编辑
-                            </v-btn>
-                            <v-btn v-if="isActive" :prepend-icon="mdiScriptText" variant="text" size="small"
-                                color="success" class="ml-2" @click.prevent="onCreateScript(item.id)">
-                                脚本
-                            </v-btn>
+                            <v-menu v-if="isActive">
+                                <template #activator="{ props }">
+                                    <v-btn :icon="mdiMenu" v-bind="props" size="small" variant="text"></v-btn>
+                                </template>
+                                <v-list nav density="compact">
+                                    <v-list-item @click.prevent="onCreate(item.id)">
+                                        <template #prepend>
+                                            <v-icon :icon="mdiPlusCircle"></v-icon>
+                                        </template>
+                                        <template #title>子类</template>
+                                    </v-list-item>
+
+                                    <v-list-item @click.prevent="onUpdate(item.id)">
+                                        <template #prepend>
+                                            <v-icon :icon="mdiTagEdit"></v-icon>
+                                        </template>
+                                        <template #title>编辑</template>
+                                    </v-list-item>
+
+                                    <v-list-item @click.prevent="onCreateScript(item.id)">
+                                        <template #prepend>
+                                            <v-icon :icon="mdiScriptText"></v-icon>
+                                        </template>
+                                        <template #title>脚本</template>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
                         </template>
                     </v-treeview>
                 </v-card-text>
@@ -59,7 +73,7 @@ import update from './components/update.vue';
 import createScript from '@/views/2_scripts/components/create.vue';
 import scriptTable from '@/views/2_scripts/components/table.vue';
 import toolbar from '@/components/toolbar/index.vue';
-import { mdiPlusCircle, mdiTagEdit, mdiScriptText, mdiFolderAccountOutline, mdiFileDocument } from '@mdi/js';
+import { mdiPlusCircle, mdiTagEdit, mdiScriptText, mdiFolderAccountOutline, mdiFileDocument, mdiMenu } from '@mdi/js';
 const createDialog = ref(false);
 const createDialogParams = reactive({
     parentId: undefined as string | undefined
