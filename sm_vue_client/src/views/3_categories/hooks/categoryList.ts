@@ -14,14 +14,27 @@ export const useCategoryList = () => {
     sorting: undefined,
   });
 
-  // 转换函数
   const transform = (
     items: BocSmCategoriesDtosCategoryDto[]
   ): CategoryTreeItem[] => {
-    return items.map((item) => ({
+    // 步骤1
+    const tempItems = items.map((item) => ({
       ...item,
-      children: [],
+      children: [] as CategoryTreeItem[],
     }));
+
+    // 步骤2
+    tempItems.forEach((item: CategoryTreeItem) => {
+      const parent = tempItems.find(
+        (parentItem) => parentItem.id === item.parentId
+      );
+      if (parent) {
+        parent.children.push(item);
+      }
+    });
+
+    // 步骤3
+    return tempItems.filter((item) => !item.parentId);
   };
 
   const getList = async (parentId: string | undefined = undefined) => {
@@ -35,7 +48,7 @@ export const useCategoryList = () => {
         skipCount: (pageable.pageNum - 1) * pageable.pageSize,
         maxResultCount: pageable.pageSize,
       });
-      return transform(res.items || []);
+      list.value = transform(res.items || []);
     } finally {
       loading.value = false;
     }

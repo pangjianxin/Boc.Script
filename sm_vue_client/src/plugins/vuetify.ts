@@ -22,6 +22,8 @@ import {
   mdiAccountMultiple,
   mdiHome,
   mdiWalletMembership,
+  mdiScriptText,
+  mdiListBox,
 } from "@mdi/js";
 import { VTreeview } from "vuetify/labs/VTreeview";
 export const vuetify = createVuetify({
@@ -48,6 +50,8 @@ export const vuetify = createVuetify({
       mdiAccountMultiple: mdiAccountMultiple,
       mdiHome: mdiHome,
       mdiWalletMembership: mdiWalletMembership,
+      mdiScriptText: mdiScriptText,
+      mdiListBox: mdiListBox,
     },
     sets: {
       mdi,

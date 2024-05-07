@@ -1,9 +1,11 @@
 ﻿using Boc.Sm.Scripts.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Content;
 
 namespace Boc.Sm.Scripts
 {
@@ -37,6 +39,20 @@ namespace Boc.Sm.Scripts
         public async Task<PagedResultDto<ScriptDto>> GetListAsync(ScriptGetListInput input)
         {
             return await _service.GetListAsync(input);
+        }
+
+        [HttpPost]
+        [Route("download/{id}")]
+        public async Task<IRemoteStreamContent> Download(Guid id, DownloadScriptDto input)
+        {
+            return await _service.Download(id, input);
+        }
+
+        [HttpGet]
+        [Route("resolve-parameter/{id}")]
+        public Task<List<string>> ResolveParametersAsync(Guid id)
+        {
+            return _service.ResolveParametersAsync(id);
         }
 
         [HttpPut]

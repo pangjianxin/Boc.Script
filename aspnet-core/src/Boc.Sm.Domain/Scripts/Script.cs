@@ -20,5 +20,12 @@ namespace Boc.Sm.Scripts
         public string? Description { get; set; }
         public string Content { get; set; } = default!;
         public Guid? CategoryId { get; set; }
+
+        public void Update(string title, string? description, string content)
+        {
+            Title = title;
+            Description = description;
+            Content = content;
+        }
     }
 }

@@ -1,6 +1,5 @@
 <template>
-    <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :model-value="modelValue"
-        :persistent="true" :scrollable="true" :width="460">
+    <v-dialog :model-value="modelValue" @update:model-value="e => emits('update:modelValue', e)">
         <v-form v-model="formValid" ref="formRef" @submit.prevent="onSubmit">
             <v-card>
                 <v-toolbar :color="themeStore.toolbarBgColor">
@@ -8,14 +7,14 @@
                         <v-btn icon="$menu"></v-btn>
                     </template>
                     <v-toolbar-title class="text-h6">
-                        创建类别
+                        下载脚本
                     </v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
                     <v-row class="mt-1">
-                        <v-col cols="12">
-                            <v-text-field label="类别名称" v-model="form.title" color="primary" variant="outlined"
-                                density="compact" type="text" :rules="formRules.title">
+                        <v-col cols="12" v-for="(value, key) in form.parameters" :key="key">
+                            <v-text-field :label="key" v-model="form.parameters![key]" color="primary"
+                                variant="outlined" density="compact" type="text" :rules="formRules.item">
                             </v-text-field>
                         </v-col>
                     </v-row>
@@ -36,40 +35,49 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from '@/store/themeStore';
-import { useCreateCategoryForm } from '../hooks/create';
 import { SubmitEventPromise } from 'vuetify';
+import { useThemeStore } from '@/store/themeStore';
 import { mdiPower, mdiCheck } from '@mdi/js';
-const themeStore = useThemeStore();
+import { useDownloadForm } from '../hooks/download';
 
-const { form, formLoading, formRef, formRules, formValid, submit } = useCreateCategoryForm();
+const { form, formLoading, formValid, formRef, formRules, updateFormItems, submit } = useDownloadForm();
+const themeStore = useThemeStore();
 
 const props = defineProps({
     modelValue: {
         type: Boolean,
-        required: true
+        required: false,
+        default: false
     },
-    parentId: {
+    id: {
         type: String,
+        required: false,
+        default: undefined
+    },
+    parameters: {
+        type: Array<string>,
         required: false,
         default: undefined
     }
 });
+const emits = defineEmits(["update:modelValue"]);
 
-watch(() => props.parentId, newVal => {
-    form.parentId = newVal;
-})
-
-const emits = defineEmits(["update:modelValue", "update:notify"]);
-
+watch(() => props.modelValue, (val) => {
+    if (val) {
+        updateFormItems(props.parameters, props.id);
+    }
+});
 const onSubmit = async (e: SubmitEventPromise) => {
     if ((await e).valid) {
-        await submit();
-        emits("update:notify", true);
-        emits("update:modelValue", false);
+        try {
+            formLoading.value = true;
+            await submit();
+            emits('update:modelValue', false);
+        } finally {
+            formLoading.value = false;
+        }
     }
 }
-
 </script>
 
 <style scoped></style>

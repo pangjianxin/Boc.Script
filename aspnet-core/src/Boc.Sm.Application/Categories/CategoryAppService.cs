@@ -30,6 +30,6 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Ca
     protected override async Task<IQueryable<Category>> CreateFilteredQueryAsync(CategoryGetListInput input)
     {
         // TODO: AbpHelper generated
-        return (await base.CreateFilteredQueryAsync(input)).Where(it => it.ParentId == input.ParentId).ApplyFilter(input);
+        return (await base.CreateFilteredQueryAsync(input)).ApplyFilter(input);
     }
 }

@@ -12,6 +12,9 @@ public class CategoryGetListInput : FilterBase, IPagedAndSortedResultRequest
     [CompareTo(nameof(CategoryDto.Title))]
     [StringFilterOptions(StringFilterOption.Contains)]
     public string? Filter { get; set; }
+
+    [CompareTo(nameof(CategoryDto.ParentId))]
+    [OperatorComparison(OperatorType.Equal)]
     public Guid? ParentId { get; set; }
     public int SkipCount { get; set; }
     public int MaxResultCount { get; set; }

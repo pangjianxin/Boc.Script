@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BocSmCategoriesDtosScriptCategoryDto } from './BocSmCategoriesDtosScriptCategoryDto';
 export type BocSmCategoriesDtosCategoryDto = {
     id?: string;
     creationTime?: string;
@@ -11,6 +10,5 @@ export type BocSmCategoriesDtosCategoryDto = {
     lastModifierId?: string | null;
     parentId?: string | null;
     title?: string | null;
-    scriptCategories?: Array<BocSmCategoriesDtosScriptCategoryDto> | null;
 };
 

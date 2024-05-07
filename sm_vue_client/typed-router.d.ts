@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     'index': RouteRecordInfo<'index', '/', Record<never, never>, Record<never, never>>,
     'not-found': RouteRecordInfo<'not-found', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     'account': RouteRecordInfo<'account', '/1_account', Record<never, never>, Record<never, never>>,
+    'script.index': RouteRecordInfo<'script.index', '/2_scripts', Record<never, never>, Record<never, never>>,
     'category.index': RouteRecordInfo<'category.index', '/3_categories', Record<never, never>, Record<never, never>>,
     'tenant.index': RouteRecordInfo<'tenant.index', '/997_tenants', Record<never, never>, Record<never, never>>,
     'identity.options': RouteRecordInfo<'identity.options', '/999_identity/options', Record<never, never>, Record<never, never>>,

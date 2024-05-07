@@ -2,8 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type BocSmCategoriesDtosScriptCategoryDto = {
-    scriptId?: string;
-    categoryId?: string;
+export type BocSmScriptsDtosDownloadScriptDto = {
+    parameters?: Record<string, string> | null;
 };
 

@@ -1,6 +1,7 @@
 <template>
   <v-layout class="rounded rounded-md v-application" full-height>
     <leftSideMenu ref="leftSideMenuRef"></leftSideMenu>
+    <!-- <rightSideMenu v-model="rightSideMenuModel"></rightSideMenu> -->
     <v-app-bar :color="themeStore.appBarBgColor" rounded elevation="1">
       <template v-if="!mobile">
         <!--面包屑-->
@@ -14,7 +15,7 @@
       </template>
       <v-app-bar-nav-icon @click="toggleLeftSideMenu()"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-btn @click="toggleRightSideMenu()" variant="text" :icon="mdiCog" />
+      <!-- <v-btn @click="toggleRightSideMenu()" variant="text" :icon="mdiCog" /> -->
       <!--搜索框-->
       <div v-if="!mobile" style="width: 220px" class="search_ip mr-2">
         <v-text-field rounded density="compact" variant="outlined" label="Search here" :prepend-inner-icon="mdiMagnify"
@@ -42,7 +43,7 @@
         <v-btn :icon="mdiCog" />
       </div>
     </v-app-bar>
-    <!-- <rightSideMenu v-model="rightSideMenuModel"></rightSideMenu> -->
+
     <v-main scrollable>
       <v-container :fluid="!themeStore.mobile">
         <router-view> </router-view>
