@@ -13,6 +13,7 @@ export type { BocSmIdentityOptionsDtosIdentityPasswordOptionsSettingDto } from '
 export type { BocSmScriptsDtosCreateScriptDto } from './models/BocSmScriptsDtosCreateScriptDto';
 export type { BocSmScriptsDtosDownloadScriptDto } from './models/BocSmScriptsDtosDownloadScriptDto';
 export type { BocSmScriptsDtosScriptDto } from './models/BocSmScriptsDtosScriptDto';
+export type { BocSmScriptsDtosScriptVersionDto } from './models/BocSmScriptsDtosScriptVersionDto';
 export type { BocSmScriptsDtosUpdateScriptDto } from './models/BocSmScriptsDtosUpdateScriptDto';
 export type { VoloAbpAccountChangePasswordInput } from './models/VoloAbpAccountChangePasswordInput';
 export type { VoloAbpAccountProfileDto } from './models/VoloAbpAccountProfileDto';

@@ -1,6 +1,6 @@
+using AutoMapper;
 using Boc.Sm.Categories;
 using Boc.Sm.Categories.Dtos;
-using AutoMapper;
 using Boc.Sm.Scripts;
 using Boc.Sm.Scripts.Dtos;
 
@@ -15,5 +15,6 @@ public class SmApplicationAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
         CreateMap<Category, CategoryDto>();
         CreateMap<Script, ScriptDto>();
+        CreateMap<ScriptVersion, ScriptVersionDto>();
     }
 }

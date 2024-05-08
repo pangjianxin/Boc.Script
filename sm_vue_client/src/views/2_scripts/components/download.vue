@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :model-value="modelValue" @update:model-value="e => emits('update:modelValue', e)">
+    <v-dialog :model-value="modelValue" @update:model-value="e => emits('update:modelValue', e)" width="350">
         <v-form v-model="formValid" ref="formRef" @submit.prevent="onSubmit">
             <v-card>
                 <v-toolbar :color="themeStore.toolbarBgColor">
@@ -21,7 +21,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn density="compact" variant="text" @click=" emits('update:modelValue', false)"
+                    <v-btn density="compact" variant="text" @click="emits('update:modelValue', false)"
                         :icon="mdiPower">
                     </v-btn>
                     <v-btn type="submit" :prepend-icon="mdiCheck" variant="text" :disabled="!formValid"

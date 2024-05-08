@@ -46,7 +46,7 @@ namespace Boc.Sm.Scripts
             {
                 Position = 0
             };
-            return new RemoteStreamContent(memory, $"sql{Clock.Now:yyMMdd}.txt", "application/octet-stream");
+            return new RemoteStreamContent(memory, $"{entity.Title}-{Clock.Now:yyMMdd}.txt", "application/octet-stream");
         }
 
         public override async Task<ScriptDto> UpdateAsync(Guid id, UpdateScriptDto input)

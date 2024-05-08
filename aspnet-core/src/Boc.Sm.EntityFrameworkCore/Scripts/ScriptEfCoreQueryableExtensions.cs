@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Boc.Sm.Scripts;
@@ -11,8 +12,6 @@ public static class ScriptEfCoreQueryableExtensions
             return queryable;
         }
 
-        return queryable
-            // .Include(x => x.xxx) // TODO: AbpHelper generated
-            ;
+        return queryable.Include(x => x.Versions);
     }
 }

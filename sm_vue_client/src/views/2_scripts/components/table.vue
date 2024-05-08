@@ -21,14 +21,39 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-            <v-btn :prepend-icon="mdiFileEdit" variant="outlined" size="small" color="primary"
-                @click="onUpdate(item.id!)">
-                更新
-            </v-btn>
-            <v-btn :prepend-icon="mdiViewColumn" variant="outlined" size="small" color="success"
-                @click="onPreview(item.content!)" class="ml-1">
-                预览
-            </v-btn>
+            <v-menu>
+                <template #activator="{ props }">
+                    <v-btn :prepend-icon="mdiMenu" v-bind="props" variant="outlined" size="small" color="primary">
+                        操作
+                    </v-btn>
+                </template>
+                <v-list density="compact" nav>
+                    <v-list-item @click="onUpdate(item.id!)">
+                        <template #prepend>
+                            <v-icon :icon="mdiFileEdit"></v-icon>
+                        </template>
+                        <template #title>
+                            更新
+                        </template>
+                    </v-list-item>
+                    <v-list-item @click="onPreview(item.content!)">
+                        <template #prepend>
+                            <v-icon :icon="mdiViewColumn"></v-icon>
+                        </template>
+                        <template #title>
+                            预览
+                        </template>
+                    </v-list-item>
+                    <v-list-item @click="onVersionView(item.id!)">
+                        <template #prepend>
+                            <v-icon :icon="mdiHistory"></v-icon>
+                        </template>
+                        <template #title>
+                            变更历史
+                        </template>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
             <v-btn :prepend-icon="mdiDownload" variant="outlined" size="small" color="success"
                 @click="onDownload(item.id!)" class="ml-1">
                 下载
@@ -44,14 +69,16 @@
     <scriptPreviewer v-model="previewerDialog" v-bind="previewerDialogParams"></scriptPreviewer>
     <update v-model="updateDialog" v-bind="updateDialogParams" @update:notify="refreshData"></update>
     <download v-model="downloadDialog" v-bind="downloadDialogParams"></download>
+    <script-versions v-model="versionDialog" v-bind="versionDialogParams"></script-versions>
 </template>
 
 <script setup lang="ts">
 import { useScriptList } from '../hooks/scriptList';
-import { mdiMagnify, mdiFileEdit, mdiDownload, mdiViewColumn } from '@mdi/js';
+import { mdiMagnify, mdiFileEdit, mdiDownload, mdiViewColumn, mdiMenu, mdiHistory } from '@mdi/js';
 import scriptPreviewer from './previewer.vue';
 import update from './update.vue';
 import download from './download.vue';
+import scriptVersions from './versions.vue';
 
 const props = defineProps({
     categoryId: {
@@ -65,6 +92,15 @@ const props = defineProps({
         default: undefined
     }
 });
+
+const versionDialog = ref(false);
+const versionDialogParams = reactive({
+    id: undefined as string | undefined
+});
+const onVersionView = (id: string) => {
+    versionDialogParams.id = id;
+    versionDialog.value = true;
+}
 
 const updateDialog = ref(false);
 const updateDialogParams = reactive({

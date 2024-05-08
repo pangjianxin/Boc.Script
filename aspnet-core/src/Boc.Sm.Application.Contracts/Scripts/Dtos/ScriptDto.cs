@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace Boc.Sm.Scripts.Dtos
@@ -9,5 +10,6 @@ namespace Boc.Sm.Scripts.Dtos
         public string? Description { get; set; }
         public string Content { get; set; } = default!;
         public Guid? CategoryId { get; set; }
+        public ICollection<ScriptVersionDto>? Versions { get; set; }
     }
 }

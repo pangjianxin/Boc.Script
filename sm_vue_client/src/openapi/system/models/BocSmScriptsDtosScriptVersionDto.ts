@@ -2,17 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BocSmScriptsDtosScriptVersionDto } from './BocSmScriptsDtosScriptVersionDto';
-export type BocSmScriptsDtosScriptDto = {
+export type BocSmScriptsDtosScriptVersionDto = {
     id?: string;
     creationTime?: string;
     creatorId?: string | null;
     lastModificationTime?: string | null;
     lastModifierId?: string | null;
-    title?: string | null;
-    description?: string | null;
+    scriptId?: string;
     content?: string | null;
-    categoryId?: string | null;
-    versions?: Array<BocSmScriptsDtosScriptVersionDto> | null;
 };
 

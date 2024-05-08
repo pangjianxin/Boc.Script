@@ -1,6 +1,6 @@
 <template>
     <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :model-value="modelValue"
-        :persistent="true" :scrollable="true" :width="460">
+        :persistent="true" :scrollable="true" width="50%">
         <v-form v-model="formValid" ref="formRef" @submit.prevent="onSubmit">
             <v-card>
                 <v-toolbar :color="themeStore.toolbarBgColor">

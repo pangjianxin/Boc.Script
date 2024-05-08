@@ -84,8 +84,17 @@ public class SmDbContext :
             b.Property(it => it.Title).IsRequired(true).HasMaxLength(256);
             b.Property(it => it.Description).IsRequired(false).HasMaxLength(1024);
             b.Property(it => it.Content).IsRequired(true).HasMaxLength(int.MaxValue);
+
+            b.HasMany(it => it.Versions).WithOne().HasForeignKey(it => it.ScriptId);
         });
 
+        builder.Entity<ScriptVersion>(b =>
+        {
+            b.ToTable(SmConsts.DbTablePrefix + "ScriptVersions", SmConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.HasKey(it => it.Id);
+            b.Property(it => it.Content).IsRequired().HasMaxLength(int.MaxValue);
+        });
 
         builder.Entity<Category>(b =>
         {

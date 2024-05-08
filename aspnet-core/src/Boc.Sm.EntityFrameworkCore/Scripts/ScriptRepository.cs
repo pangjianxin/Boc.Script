@@ -12,7 +12,6 @@ namespace Boc.Sm.Scripts
         public ScriptRepository(IDbContextProvider<SmDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
         public override async Task<IQueryable<Script>> WithDetailsAsync()
         {
             return (await GetQueryableAsync()).IncludeDetails();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Boc.Sm.Scripts
@@ -6,26 +7,24 @@ namespace Boc.Sm.Scripts
     /// <summary>
     /// 脚本
     /// </summary>
-    public class Script : AuditedAggregateRoot<Guid>
+    public class Script(Guid id, string title, string? description, string content, Guid? categoryId) : AuditedAggregateRoot<Guid>(id)
     {
-        public Script(Guid id, string title, string? description, string content, Guid? categoryId) : base(id)
-        {
-            Title = title;
-            Description = description;
-            Content = content;
-            CategoryId = categoryId;
-        }
-
-        public string Title { get; set; } = default!;
-        public string? Description { get; set; }
-        public string Content { get; set; } = default!;
-        public Guid? CategoryId { get; set; }
+        public string Title { get; set; } = title;
+        public string? Description { get; set; } = description;
+        public string Content { get; set; } = content;
+        public Guid? CategoryId { get; set; } = categoryId;
+        public ICollection<ScriptVersion>? Versions { get; set; }
 
         public void Update(string title, string? description, string content)
         {
             Title = title;
             Description = description;
-            Content = content;
+            if (Content != content)
+            {
+                Versions ??= [];
+                Versions.Add(new ScriptVersion { Content = Content });
+                Content = content;
+            }
         }
     }
 }
