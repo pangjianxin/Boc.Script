@@ -1,5 +1,5 @@
 <template>
-    <v-dialog transition="dialog-bottom-transition" width="auto" :model-value="show" :persistent="true">
+    <v-dialog transition="dialog-bottom-transition" width="auto" :model-value="modelValue" :persistent="true">
         <v-sheet class="d-flex align-center justify-center flex-wrap text-center mx-auto px-4" elevation="4"
             height="250" rounded max-width="800" width="100%">
             <div>
@@ -32,7 +32,7 @@ import { mdiDelete, mdiPower } from '@mdi/js';
 const systemClient = new SystemClient(OpenAPI);
 
 const props = defineProps({
-    show: {
+    modelValue: {
         type: Boolean,
         required: true
     },

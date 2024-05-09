@@ -1,6 +1,6 @@
 <template>
     <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile"
-        :width="themeStore.mobile ? '100%' : '50%'" :model-value="show" :persistent="true" :scrollable="true">
+        :width="themeStore.mobile ? '100%' : '50%'" :model-value="modelValue" :persistent="true" :scrollable="true">
         <v-form v-model="updateFormValid" ref="updateFormRef" @submit.prevent="onSubmitUpdateIdentityRole">
             <v-card>
                 <v-toolbar :color="themeStore.toolbarBgColor">
@@ -54,7 +54,7 @@ const { updateForm,
 const updateFormRef = ref();
 const themeStore = useThemeStore();
 const props = defineProps({
-    show: {
+    modelValue: {
         type: Boolean,
         required: true
     },
@@ -70,7 +70,7 @@ const closeDialog = () => {
     emits("update:modelValue", false);
 }
 
-watch(() => props.show, async (newVal) => {
+watch(() => props.modelValue, async (newVal) => {
     if (newVal === true) {
         const res = await systemClient.role.roleGet({ id: props.roleId! });
         initForm(res);

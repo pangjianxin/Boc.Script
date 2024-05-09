@@ -1,7 +1,7 @@
 
 <template>
     <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :width="themeStore.mobile ? '100%' : '50%'"
-        :model-value="show" :persistent="true" :scrollable="true">
+        :model-value="modelValue" :persistent="true" :scrollable="true">
         <v-form v-model="createFormValid" ref="createFormRef" @submit.prevent="onSubmitCreateIdentityRole">
             <v-card>
                 <v-toolbar :color="themeStore.toolbarBgColor">
@@ -51,7 +51,7 @@ const createFormRef = ref();
 const themeStore = useThemeStore();
 
 defineProps({
-    show: { type: Boolean, required: true }
+    modelValue: { type: Boolean, required: true }
 })
 
 const emits = defineEmits(["update:modelValue", "done"]);

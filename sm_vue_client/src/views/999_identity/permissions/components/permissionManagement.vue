@@ -1,6 +1,6 @@
 <template>
     <v-dialog transition="dialog-top-transition" width="40%" height="50%" :fullscreen="themeStore.mobile"
-        :model-value="show" :persistent="true" :scrollable="true">
+        :model-value="modelValue" :persistent="true" :scrollable="true">
         <v-form v-model="formValid" @submit.prevent="onSubmit">
             <v-card width="100%">
                 <v-toolbar :color="themeStore.toolbarBgColor" :extended="true">
@@ -84,7 +84,7 @@ const tab = ref(0);
 
 
 const props = defineProps({
-    show: {
+    modelValue: {
         type: Boolean,
         required: true
     },
@@ -109,13 +109,13 @@ const onSubmit = async (e: SubmitEventPromise) => {
     }
 }
 
-const emits = defineEmits(["update:show"]);
+const emits = defineEmits(["update:modelValue"]);
 
 const closeDialog = () => {
-    emits("update:show", false);
+    emits("update:modelValue", false);
 }
 
-watch(() => props.show, async (newVal) => {
+watch(() => props.modelValue, async (newVal) => {
     if (newVal === true) {
         await getPermissions(props.providerKey, props.providerName);
     }

@@ -16,6 +16,13 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Ca
     {
     }
 
+    public override async Task<CategoryDto> CreateAsync(CreateCategoryDto input)
+    {
+        var entity = new Category(GuidGenerator.Create(), input.ParentId, input.Title);
+        await Repository.InsertAsync(entity);
+        return await MapToGetOutputDtoAsync(entity);
+    }
+
     public override async Task<CategoryDto> UpdateAsync(Guid id, UpdateCategoryDto input)
     {
         Category entity = await Repository.GetAsync(id);

@@ -51,7 +51,7 @@
         </template>
     </v-infinite-scroll>
 
-    <create v-model:show="createDialog" @done="onDataChanged"></create>
+    <create v-model="createDialog" @done="onDataChanged"></create>
 </template>
 
 <script setup lang="ts">

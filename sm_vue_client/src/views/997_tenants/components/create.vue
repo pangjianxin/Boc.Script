@@ -1,5 +1,5 @@
 <template>
-    <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :model-value="show" :persistent="true"
+    <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :model-value="modelValue" :persistent="true"
         :scrollable="true">
         <v-form v-model="createFormValid" ref="createFormRef" @submit.prevent="onSubmit">
             <v-card>
@@ -56,7 +56,7 @@ const { createFormValid, createForm, createFormRules, submit } = useCreateTenant
 const passwordShow = ref(false);
 
 defineProps({
-    show: {
+    modelValue: {
         type: Boolean,
         required: true
     }

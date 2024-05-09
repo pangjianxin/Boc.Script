@@ -79,13 +79,13 @@
             </template>
         </v-infinite-scroll>
 
-        <edit v-model:show="editDialog" :user-id="editDialogPrarms" @done="onDataChanged"></edit>
+        <edit v-model="editDialog" :user-id="editDialogPrarms" @done="onDataChanged"></edit>
 
-        <remove v-model:show="deleteDialog" :user="deleteDialogParams!" @done="onDataChanged"></remove>
+        <remove v-model="deleteDialog" :user="deleteDialogParams!" @done="onDataChanged"></remove>
 
-        <create v-model:show="createDialog" @done="onDataChanged"></create>
+        <create v-model="createDialog" @done="onDataChanged"></create>
 
-        <permissionManagement v-model:show="permissionDialog" :provider-key="permissionDialogParams.providerKey"
+        <permissionManagement v-model="permissionDialog" :provider-key="permissionDialogParams.providerKey"
             :provider-name="permissionDialogParams.providerName"
             :provider-key-display-name="permissionDialogParams.providerDiaplayName">
         </permissionManagement>

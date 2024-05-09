@@ -1,6 +1,6 @@
 <template>
     <v-dialog transition="dialog-top-transition" :fullscreen="themeStore.mobile" :width="themeStore.mobile ? '100%' : '50%'"
-        :model-value="show" :persistent="true" :scrollable="true">
+        :model-value="modelValue" :persistent="true" :scrollable="true">
 
         <v-form v-model="createFormValid" ref="createFormRef" @submit.prevent="onSubmitCreateIdentityUser">
             <v-card>
@@ -112,7 +112,7 @@ const windowItems = ref(["用户信息", "角色信息"]);
 const passwordShow = ref(false);
 
 const props = defineProps({
-    show: {
+    modelValue: {
         type: Boolean,
         required: true
     }
@@ -133,7 +133,7 @@ const onSubmitCreateIdentityUser = async (e: SubmitEventPromise) => {
     }
 }
 
-watch(() => props.show, async (newVal) => {
+watch(() => props.modelValue, async (newVal) => {
     if (newVal === true) {
         await fetchRoles();
     }
