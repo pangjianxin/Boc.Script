@@ -1,7 +1,7 @@
 <template>
   <v-layout class="rounded rounded-md v-application" full-height>
     <leftSideMenu ref="leftSideMenuRef"></leftSideMenu>
-    <!-- <rightSideMenu v-model="rightSideMenuModel"></rightSideMenu> -->
+
     <v-app-bar :color="themeStore.appBarBgColor" rounded elevation="1">
       <template v-if="!mobile">
         <!--面包屑-->
@@ -15,7 +15,6 @@
       </template>
       <v-app-bar-nav-icon @click="toggleLeftSideMenu()"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <!-- <v-btn @click="toggleRightSideMenu()" variant="text" :icon="mdiCog" /> -->
       <!--搜索框-->
       <div v-if="!mobile" style="width: 220px" class="search_ip mr-2">
         <v-text-field rounded density="compact" variant="outlined" label="Search here" :prepend-inner-icon="mdiMagnify"
@@ -57,7 +56,6 @@ import logo from "@/assets/logo.png";
 import wxtx from "@/assets/user.png";
 import Breadcrumbs from "@/components/breadcrumbs/breadcrumbs.vue";
 import leftSideMenu from "@/layouts/components/leftSideMenu.vue";
-import rightSideMenu from "./components/rightSideMenu.vue";
 import { useThemeStore } from "@/store/themeStore";
 import { useAbpSessionStore } from "@/store/abpSessionStore";
 
@@ -68,11 +66,6 @@ const { theme, mobile } = storeToRefs(themeStore);
 const themeIcon = computed(() => {
   return theme.value === "dark" ? mdiWeatherSunny : mdiWeatherNight;
 });
-
-const rightSideMenuModel = ref(false);
-const toggleRightSideMenu = () => {
-  rightSideMenuModel.value = !rightSideMenuModel.value;
-};
 
 const leftSideMenuRef = ref();
 const toggleLeftSideMenu = () => {

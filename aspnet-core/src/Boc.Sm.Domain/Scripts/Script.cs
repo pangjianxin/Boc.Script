@@ -26,5 +26,10 @@ namespace Boc.Sm.Scripts
                 Content = content;
             }
         }
+
+        public void Update(Guid categoryId)
+        {
+            CategoryId = categoryId;
+        }
     }
 }

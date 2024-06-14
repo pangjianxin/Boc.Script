@@ -14,6 +14,7 @@ export type { BocSmScriptsDtosCreateScriptDto } from './models/BocSmScriptsDtosC
 export type { BocSmScriptsDtosDownloadScriptDto } from './models/BocSmScriptsDtosDownloadScriptDto';
 export type { BocSmScriptsDtosScriptDto } from './models/BocSmScriptsDtosScriptDto';
 export type { BocSmScriptsDtosScriptVersionDto } from './models/BocSmScriptsDtosScriptVersionDto';
+export type { BocSmScriptsDtosUpdateCategoryDto } from './models/BocSmScriptsDtosUpdateCategoryDto';
 export type { BocSmScriptsDtosUpdateScriptDto } from './models/BocSmScriptsDtosUpdateScriptDto';
 export type { VoloAbpAccountChangePasswordInput } from './models/VoloAbpAccountChangePasswordInput';
 export type { VoloAbpAccountProfileDto } from './models/VoloAbpAccountProfileDto';

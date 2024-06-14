@@ -1,7 +1,7 @@
+using Boc.Sm.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Boc.Sm.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,6 +12,8 @@ public class CategoryRepository : EfCoreRepository<SmDbContext, Category, Guid>,
     public CategoryRepository(IDbContextProvider<SmDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
+
+    
 
     public override async Task<IQueryable<Category>> WithDetailsAsync()
     {

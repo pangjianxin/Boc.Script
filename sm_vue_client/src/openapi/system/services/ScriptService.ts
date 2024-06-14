@@ -6,6 +6,7 @@ import type { AutoFiltererEnumsCombineType } from '../models/AutoFiltererEnumsCo
 import type { BocSmScriptsDtosCreateScriptDto } from '../models/BocSmScriptsDtosCreateScriptDto';
 import type { BocSmScriptsDtosDownloadScriptDto } from '../models/BocSmScriptsDtosDownloadScriptDto';
 import type { BocSmScriptsDtosScriptDto } from '../models/BocSmScriptsDtosScriptDto';
+import type { BocSmScriptsDtosUpdateCategoryDto } from '../models/BocSmScriptsDtosUpdateCategoryDto';
 import type { BocSmScriptsDtosUpdateScriptDto } from '../models/BocSmScriptsDtosUpdateScriptDto';
 import type { VoloAbpApplicationDtosPagedResultDtoOfScriptDto } from '../models/VoloAbpApplicationDtosPagedResultDtoOfScriptDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -199,6 +200,35 @@ export class ScriptService {
             path: {
                 'id': id,
             },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+                500: `Server Error`,
+                501: `Server Error`,
+            },
+        });
+    }
+    /**
+     * @returns BocSmScriptsDtosScriptDto Success
+     * @throws ApiError
+     */
+    public scriptUpdateCategory({
+        id,
+        requestBody,
+    }: {
+        id: string,
+        requestBody?: BocSmScriptsDtosUpdateCategoryDto,
+    }): CancelablePromise<BocSmScriptsDtosScriptDto> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/api/sm/script/category/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Bad Request`,
                 401: `Unauthorized`,

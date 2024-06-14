@@ -21,8 +21,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn density="compact" variant="text" @click="emits('update:modelValue', false)"
-                        :icon="mdiPower">
+                    <v-btn density="compact" variant="text" @click="emits('update:modelValue', false)" :icon="mdiPower">
                     </v-btn>
                     <v-btn type="submit" :prepend-icon="mdiCheck" variant="text" :disabled="!formValid"
                         :loading="formLoading">
@@ -39,8 +38,13 @@ import { SubmitEventPromise } from 'vuetify';
 import { useThemeStore } from '@/store/themeStore';
 import { mdiPower, mdiCheck } from '@mdi/js';
 import { useDownloadForm } from '../hooks/download';
+import { BocSmCategoriesDtosCategoryDto, BocSmScriptsDtosScriptDto, SystemClient } from '@/openapi/system';
+import { OpenAPI } from '@/openapi/system/core/OpenAPI';
 
 const { form, formLoading, formValid, formRef, formRules, updateFormItems, submit } = useDownloadForm();
+const script = ref<BocSmScriptsDtosScriptDto>();
+const category = ref<BocSmCategoriesDtosCategoryDto>();
+
 const themeStore = useThemeStore();
 
 const props = defineProps({
@@ -62,8 +66,11 @@ const props = defineProps({
 });
 const emits = defineEmits(["update:modelValue"]);
 
-watch(() => props.modelValue, (val) => {
+watch(() => props.modelValue, async (val) => {
     if (val) {
+        const client = new SystemClient(OpenAPI);
+        script.value = await client.script.scriptGet({ id: props.id! });
+        category.value = await client.category.categoryGet({ id: script.value.categoryId! });
         updateFormItems(props.parameters, props.id);
     }
 });
@@ -71,7 +78,7 @@ const onSubmit = async (e: SubmitEventPromise) => {
     if ((await e).valid) {
         try {
             formLoading.value = true;
-            await submit();
+            await submit(category.value?.title!, script.value?.title!);
             emits('update:modelValue', false);
         } finally {
             formLoading.value = false;

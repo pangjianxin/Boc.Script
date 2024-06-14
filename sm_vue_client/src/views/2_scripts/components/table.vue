@@ -28,9 +28,17 @@
                     </v-btn>
                 </template>
                 <v-list density="compact" nav>
+                    <v-list-item @click="onRemoveConfirmDialog(item.id!)">
+                        <template #prepend>
+                            <v-icon color="error" :icon="mdiDeleteAlert"></v-icon>
+                        </template>
+                        <template #title>
+                            删除
+                        </template>
+                    </v-list-item>
                     <v-list-item @click="onUpdate(item.id!)">
                         <template #prepend>
-                            <v-icon :icon="mdiFileEdit"></v-icon>
+                            <v-icon color="primary" :icon="mdiFileEdit"></v-icon>
                         </template>
                         <template #title>
                             更新
@@ -38,15 +46,23 @@
                     </v-list-item>
                     <v-list-item @click="onPreview(item.content!)">
                         <template #prepend>
-                            <v-icon :icon="mdiViewColumn"></v-icon>
+                            <v-icon color="success" :icon="mdiViewColumn"></v-icon>
                         </template>
                         <template #title>
                             预览
                         </template>
                     </v-list-item>
+                    <v-list-item @click="onCategory(item.id!)">
+                        <template #prepend>
+                            <v-icon color="info" :icon="mdiListBox"></v-icon>
+                        </template>
+                        <template #title>
+                            类别信息
+                        </template>
+                    </v-list-item>
                     <v-list-item @click="onVersionView(item.id!)">
                         <template #prepend>
-                            <v-icon :icon="mdiHistory"></v-icon>
+                            <v-icon color="info" :icon="mdiHistory"></v-icon>
                         </template>
                         <template #title>
                             变更历史
@@ -70,15 +86,26 @@
     <update v-model="updateDialog" v-bind="updateDialogParams" @update:notify="refreshData"></update>
     <download v-model="downloadDialog" v-bind="downloadDialogParams"></download>
     <script-versions v-model="versionDialog" v-bind="versionDialogParams"></script-versions>
+    <category v-model="categoryDialog" v-bind="categoryDialogParams" @update:notify="refreshData"></category>
+    <remove-confirm v-model="removeConfirmDialog" v-bind="removeConfirmDialogParams"
+        @update:notify="onRemoveAttachmentConfirmed">
+    </remove-confirm>
 </template>
 
 <script setup lang="ts">
 import { useScriptList } from '../hooks/scriptList';
-import { mdiMagnify, mdiFileEdit, mdiDownload, mdiViewColumn, mdiMenu, mdiHistory } from '@mdi/js';
+import { mdiMagnify, mdiFileEdit, mdiDownload, mdiViewColumn, mdiMenu, mdiHistory, mdiListBox, mdiDeleteAlert } from '@mdi/js';
 import scriptPreviewer from './previewer.vue';
 import update from './update.vue';
 import download from './download.vue';
 import scriptVersions from './versions.vue';
+import category from './category.vue';
+import removeConfirm from '@/components/confirmDialog/index.vue';
+import { SystemClient } from '@/openapi/system';
+import { OpenAPI } from '@/openapi/system/core/OpenAPI';
+import { useGlobalStore } from '@/store/globalStore';
+
+const { setSnackbarText } = useGlobalStore();
 
 const props = defineProps({
     categoryId: {
@@ -92,7 +119,7 @@ const props = defineProps({
         default: undefined
     }
 });
-
+// 版本对话框
 const versionDialog = ref(false);
 const versionDialogParams = reactive({
     id: undefined as string | undefined
@@ -101,7 +128,7 @@ const onVersionView = (id: string) => {
     versionDialogParams.id = id;
     versionDialog.value = true;
 }
-
+// 更新对话框
 const updateDialog = ref(false);
 const updateDialogParams = reactive({
     id: undefined as string | undefined
@@ -110,7 +137,7 @@ const onUpdate = (id: string) => {
     updateDialog.value = true;
     updateDialogParams.id = id;
 }
-
+// 预览对话框
 const previewerDialog = ref(false);
 const previewerDialogParams = reactive({
     content: undefined as string | undefined
@@ -119,7 +146,7 @@ const onPreview = (sql: string) => {
     previewerDialogParams.content = sql;
     previewerDialog.value = true;
 };
-
+// 下载对话框
 const downloadDialog = ref(false);
 const downloadDialogParams = reactive({
     id: undefined as string | undefined,
@@ -131,6 +158,38 @@ const onDownload = async (id: string) => {
     downloadDialogParams.id = id;
     downloadDialog.value = true;
 }
+// 类别对话框
+const categoryDialog = ref(false);
+const categoryDialogParams = reactive({
+    entityId: undefined as string | undefined
+})
+const onCategory = (entityId: string) => {
+    categoryDialogParams.entityId = entityId;
+    categoryDialog.value = true;
+}
+
+// 删除对话框
+const removeConfirmDialog = ref(false);
+const removeConfirmDialogParams = reactive({
+    title: "确认删除？",
+    subtitle: "您正在删除该脚本，该操作不可恢复",
+    params: {} as Record<string, any> | undefined
+});
+const onRemoveConfirmDialog = (entityId: string) => {
+    removeConfirmDialogParams.params = {};
+    removeConfirmDialogParams.params['entityId'] = entityId;
+    removeConfirmDialog.value = true;
+};
+const onRemoveAttachmentConfirmed = async (flag: boolean, params: Record<string, any>) => {
+    if (flag === true) {
+        const client = new SystemClient(OpenAPI);
+        await client.script.scriptDelete({ id: params['entityId'] });
+        setSnackbarText("删除成功", "success");
+        await refreshData();
+    } else {
+        setSnackbarText("已取消删除", "error");
+    }
+};
 
 const { pageable, headers, getList, loading, list, onPageOptionUpdated, resolveParameters } = useScriptList();
 
@@ -138,8 +197,6 @@ const refreshData = async () => {
     pageable.pageNum = 1;
     await getList(props.categoryId);
 }
-
-
 
 watch(() => props.categoryId, async () => {
     await refreshData();

@@ -1,5 +1,8 @@
 ﻿using AutoFilterer.Extensions;
+using Boc.Sm.Authorizations;
+using Boc.Sm.Permissions;
 using Boc.Sm.Scripts.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,6 +41,15 @@ namespace Boc.Sm.Scripts
             return result;
         }
 
+        public override async Task DeleteAsync(Guid id)
+        {
+            var entity = await Repository.GetAsync(id);
+
+            await CheckPermissionAsync(entity, SmPermissions.Script.Delete);
+
+            await Repository.DeleteAsync(entity);
+        }
+
         public async Task<IRemoteStreamContent> Download(Guid id, DownloadScriptDto input)
         {
             var entity = await Repository.GetAsync(id);
@@ -51,15 +63,41 @@ namespace Boc.Sm.Scripts
 
         public override async Task<ScriptDto> UpdateAsync(Guid id, UpdateScriptDto input)
         {
+
             Script entity = await Repository.GetAsync(id);
+
+            await CheckPermissionAsync(entity, SmPermissions.Script.Update);
+
             entity.Update(input.Title, input.Description, input.Content);
+
             await Repository.UpdateAsync(entity);
+
             return await MapToGetOutputDtoAsync(entity);
         }
 
         protected override async Task<IQueryable<Script>> CreateFilteredQueryAsync(ScriptGetListInput input)
         {
             return (await base.CreateFilteredQueryAsync(input)).ApplyFilter(input);
+        }
+
+        public async Task<ScriptDto> UpdateCategoryAsync(Guid id, UpdateCategoryDto input)
+        {
+            Script entity = await Repository.GetAsync(id);
+            entity.Update(input.CategoryId);
+            await Repository.UpdateAsync(entity);
+            return await MapToGetOutputDtoAsync(entity);
+        }
+
+        protected async Task CheckPermissionAsync(Script? resource, params string[] optPermission)
+        {
+            await AuthorizationService.CheckAsync(new SmResource()
+            {
+                CreatorId = resource?.CreatorId
+
+            }, new SmOperationAuthorizationRequirement
+            {
+                OperationPermissions = optPermission
+            });
         }
     }
 }

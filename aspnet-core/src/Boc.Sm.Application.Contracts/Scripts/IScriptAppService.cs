@@ -13,5 +13,6 @@ namespace Boc.Sm.Scripts
     {
         Task<IRemoteStreamContent> Download(Guid id, DownloadScriptDto input);
         Task<List<string>> ResolveParametersAsync(Guid id);
+        Task<ScriptDto> UpdateCategoryAsync(Guid id, UpdateCategoryDto input);
     }
 }

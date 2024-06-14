@@ -27,13 +27,13 @@ export const useDownloadForm = () => {
     }
     id.value = idVal;
   };
-  const submit = async () => {
+  const submit = async (category: string | undefined, script: string) => {
     const systemClient = new SystemClient(OpenAPI);
     const blob = await systemClient.script.scriptDownload({
       id: id.value!,
       requestBody: form,
     });
-    fileDownload(blob, "shit.txt");
+    fileDownload(blob, `${category}-${script}.txt`);
   };
   return {
     form,

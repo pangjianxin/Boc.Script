@@ -1,16 +1,10 @@
 import { setupLayouts } from "virtual:generated-layouts";
 import { useGlobalStore } from "@/store/globalStore";
 import { createRouter, createWebHistory } from "vue-router/auto";
+import { routes } from "vue-router/auto-routes";
 import { userManager } from "@/utils/oidc-user-manager";
-
 const router = createRouter({
-  // extendRoutes: (routes) => {
-  //   const mappedRoutes = routes.map((route) => {
-  //     return recursiveLayouts(route);
-  //   });
-  //   return mappedRoutes;
-  // },
-  extendRoutes: setupLayouts,
+  routes: setupLayouts(routes),
   history: createWebHistory(),
   scrollBehavior() {
     return { top: 0 };

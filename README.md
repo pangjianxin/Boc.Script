@@ -3,6 +3,7 @@
 docker build -t wallee/boc/sm:latest -f src/Boc.Sm.HttpApi.Host/Dockerfile .
 
 docker run -d -p 21442:8080 --name sm -v $HOME/logs/sm:/app/Logs wallee/boc/sm:latest
+
 `
 using ConsoleApp4;
 using System.Text.RegularExpressions;

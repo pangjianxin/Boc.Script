@@ -25,21 +25,28 @@
                                 <v-list nav density="compact">
                                     <v-list-item @click.prevent="onCreate(item.id)">
                                         <template #prepend>
-                                            <v-icon :icon="mdiPlusCircle"></v-icon>
+                                            <v-icon color="success" :icon="mdiPlusCircle"></v-icon>
                                         </template>
                                         <template #title>子类</template>
                                     </v-list-item>
 
                                     <v-list-item @click.prevent="onUpdate(item.id)">
                                         <template #prepend>
-                                            <v-icon :icon="mdiTagEdit"></v-icon>
+                                            <v-icon color="primary" :icon="mdiTagEdit"></v-icon>
                                         </template>
                                         <template #title>编辑</template>
                                     </v-list-item>
 
+                                    <v-list-item @click.prevent="onRemoveConfirmDialog(item.id!)">
+                                        <template #prepend>
+                                            <v-icon color="error" :icon="mdiDeleteAlert"></v-icon>
+                                        </template>
+                                        <template #title>删除</template>
+                                    </v-list-item>
+
                                     <v-list-item @click.prevent="onCreateScript(item.id)">
                                         <template #prepend>
-                                            <v-icon :icon="mdiScriptText"></v-icon>
+                                            <v-icon color="info" :icon="mdiScriptText"></v-icon>
                                         </template>
                                         <template #title>脚本</template>
                                     </v-list-item>
@@ -62,8 +69,14 @@
     </v-row>
 
     <create v-model="createDialog" v-bind="createDialogParams" @update:notify="onDateChanged()"></create>
+
     <update v-model="updateDialog" v-bind="updateDialogParams" @update:notify="onDateChanged()"></update>
+
     <create-script v-model="createScriptDialog" v-bind="createScriptDialogParams"></create-script>
+
+    <remove-confirm v-model="removeConfirmDialog" v-bind="removeConfirmDialogParams"
+        @update:notify="onRemoveAttachmentConfirmed">
+    </remove-confirm>
 </template>
 
 <script setup lang="ts">
@@ -73,7 +86,14 @@ import update from './components/update.vue';
 import createScript from '@/views/2_scripts/components/create.vue';
 import scriptTable from '@/views/2_scripts/components/table.vue';
 import toolbar from '@/components/toolbar/index.vue';
-import { mdiPlusCircle, mdiTagEdit, mdiScriptText, mdiFolderAccountOutline, mdiFileDocument, mdiMenu } from '@mdi/js';
+import { mdiPlusCircle, mdiTagEdit, mdiScriptText, mdiFolderAccountOutline, mdiFileDocument, mdiMenu, mdiDeleteAlert } from '@mdi/js';
+import removeConfirm from '@/components/confirmDialog/index.vue';
+import { SystemClient } from '@/openapi/system';
+import { OpenAPI } from '@/openapi/system/core/OpenAPI';
+import { useGlobalStore } from '@/store/globalStore';
+
+
+const { setSnackbarText } = useGlobalStore();
 const createDialog = ref(false);
 const createDialogParams = reactive({
     parentId: undefined as string | undefined
@@ -104,7 +124,30 @@ const onCreateScript = (categoryId: string | undefined) => {
 const scriptTableParams = reactive({
     categoryId: undefined as string | undefined,
     filter: undefined as string | undefined
-})
+});
+
+const removeConfirmDialog = ref(false);
+const removeConfirmDialogParams = reactive({
+    title: "确认删除？",
+    subtitle: "您正在删除该类别，如果该类别下有脚本，则会转移至回收站",
+    params: {} as Record<string, any> | undefined
+});
+const onRemoveConfirmDialog = (entityId: string) => {
+    removeConfirmDialogParams.params = {};
+    removeConfirmDialogParams.params['entityId'] = entityId;
+    removeConfirmDialog.value = true;
+};
+const onRemoveAttachmentConfirmed = async (flag: boolean, params: Record<string, any>) => {
+    if (flag === true) {
+        const client = new SystemClient(OpenAPI);
+        await client.category.categoryDelete({ id: params['entityId'] });
+        setSnackbarText("删除成功", "success");
+        await onDateChanged();
+    } else {
+        setSnackbarText("已取消删除", "error");
+    }
+};
+
 const onDateChanged = async () => {
     pageable.pageNum = 1;
     await getList(undefined);
@@ -112,7 +155,7 @@ const onDateChanged = async () => {
 
 const { list, getList, pageable } = useCategoryList();
 
-const onActivated = (e: any[]) => {
+const onActivated = (e: any) => {
     scriptTableParams.categoryId = e[0];
 }
 
