@@ -1,6 +1,7 @@
 using AutoFilterer.Extensions;
 using Boc.Sm.Categories.Dtos;
 using Boc.Sm.Scripts;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,51 +16,82 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Ca
     ICategoryAppService
 {
     private readonly IScriptRepository _scriptRepository;
+    private readonly ILogger<CategoryAppService> _logger;
 
     public CategoryAppService(
         ICategoryRepository repository,
-        IScriptRepository scriptRepository) : base(repository)
+        IScriptRepository scriptRepository,
+        ILogger<CategoryAppService> logger) : base(repository)
     {
         _scriptRepository = scriptRepository;
+        _logger = logger;
     }
-
+    public async Task<CategoryDto?> FindAsync(Guid id)
+    {
+        var entity = await Repository.FindAsync(it => it.Id == id);
+        if (entity == null)
+        {
+            return null;
+        }
+        return await MapToGetOutputDtoAsync(entity);
+    }
     public override async Task<CategoryDto> CreateAsync(CreateCategoryDto input)
     {
         if (await Repository.AnyAsync(it => it.Title == input.Title))
         {
-            throw new UserFriendlyException("ÒÑ´æÔÚ¸ÃÃû³ÆµÄÀà±ð");
+            throw new UserFriendlyException("å·²å­˜åœ¨è¯¥åç§°çš„ç±»åˆ«");
         }
 
         if (input.ParentId.HasValue)
         {
-            var category = await Repository.GetAsync(input.ParentId.Value);
-            if (category.Title == "»ØÊÕÕ¾")
+            var parent = await Repository.GetAsync(input.ParentId.Value);
+
+            if (parent.Title == "å›žæ”¶ç«™")
             {
-                throw new UserFriendlyException("»ØÊÕÕ¾Àà±ð²»ÔÊÐíÌí¼Ó×ÓÀà±ð");
+                throw new UserFriendlyException("å›žæ”¶ç«™ç±»åˆ«ä¸å…è®¸æ·»åŠ å­ç±»åˆ«");
             }
         }
 
         var entity = new Category(GuidGenerator.Create(), input.ParentId, input.Title);
+
         await Repository.InsertAsync(entity);
+
         return await MapToGetOutputDtoAsync(entity);
     }
 
     public override async Task DeleteAsync(Guid id)
     {
-        if (await Repository.AnyAsync(it => it.ParentId == id))
+        var entity = await Repository.GetAsync(id);
+
+        Logger.LogInformation("å‡†å¤‡åˆ é™¤{title}çš„ç±»åˆ«", entity.Title);
+
+        //å›žæ”¶ç«™ä¸èƒ½åˆ 
+        if (entity.Title == "å›žæ”¶ç«™")
         {
-            throw new UserFriendlyException("ÇëÏÈÉ¾³ý×ÓÀà±ð");
+            throw new UserFriendlyException("è¯¥ç±»åˆ«ä¸èƒ½åˆ é™¤");
         }
 
+        //æœ‰å­ç±»åˆ«çš„ä¸èƒ½åˆ 
+        if (await Repository.AnyAsync(it => it.ParentId == id))
+        {
+            throw new UserFriendlyException("è¯·å…ˆåˆ é™¤å­ç±»åˆ«");
+        }
+
+        //æ‰¾å‡ºæ‰€æœ‰è¯¥ç±»åˆ«å…³è”çš„è„šæœ¬ï¼Œæ”¾å…¥å›žæ”¶ç«™
         var scripts = await _scriptRepository.GetListAsync(it => it.CategoryId == id);
 
-        if (scripts != default && scripts.Count > 0)
+        if (scripts != null && scripts.Count > 0)
         {
-            var recycleBin = await Repository.FindAsync(it => it.Title == "»ØÊÕÕ¾");
+            var recycleBin = await Repository.FindAsync(it => it.Title == "å›žæ”¶ç«™");
 
-            foreach (Script script in scripts)
+            if (recycleBin == null)
             {
-                script.Update(recycleBin!.Id);
+                throw new UserFriendlyException("è¯·å…ˆåˆ›å»ºå›žæ”¶ç«™çš„ç±»åˆ«");
+            }
+
+            foreach (var script in scripts)
+            {
+                script.Update(recycleBin.Id);
             }
 
             await _scriptRepository.UpdateManyAsync(scripts);
@@ -72,9 +104,9 @@ public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, Ca
     {
         Category entity = await Repository.GetAsync(id);
 
-        if (entity.Title == "»ØÊÕÕ¾" && input.Title != entity.Title)
+        if (entity.Title == "å›žæ”¶ç«™" && input.Title != entity.Title)
         {
-            throw new UserFriendlyException("»ØÊÕÕ¾Àà±ð²»ÔÊÐíÐÞ¸Ä");
+            throw new UserFriendlyException("å›žæ”¶ç«™ç±»åˆ«ä¸å…è®¸ä¿®æ”¹");
         }
 
         entity.Update(title: input.Title);

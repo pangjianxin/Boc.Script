@@ -53,6 +53,15 @@ public class CategoryController : SmController, ICategoryAppService
         return _service.GetAsync(id);
     }
 
+
+    [HttpGet]
+    [Route("find/{id}")]
+    [Authorize(SmPermissions.Category.Default)]
+    public virtual Task<CategoryDto?> FindAsync(Guid id)
+    {
+        return _service.FindAsync(id);
+    }
+
     [HttpGet]
     [Route("")]
     [Authorize(SmPermissions.Category.Default)]

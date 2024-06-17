@@ -8,7 +8,7 @@
                         <v-btn icon="$menu"></v-btn>
                     </template>
                     <v-toolbar-title class="text-h6">
-                        创建类别
+                        编辑类别
                     </v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>

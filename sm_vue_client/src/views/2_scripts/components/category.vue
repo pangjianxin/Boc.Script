@@ -5,9 +5,9 @@
                 更新类别信息
             </template>
             <template #subtitle>
-                {{ current?.title }}的当前类别为
-                <v-chip color="warning" variant="text" rounded="0" size="small">
-                    {{ currentCat?.title }}
+                <span class="text-caption">{{ current?.title }}的当前类别=></span>
+                <v-chip color="warning" rounded="0" size="small">
+                    {{ currentCat?.title ?? "未知" }}
                 </v-chip>
             </template>
             <v-divider class="mb-4"></v-divider>
@@ -68,11 +68,20 @@ const onUpdateCategory = (categoryId: string) => {
     emits('update:notify', true);
 }
 
+const tryGetCategory = async () => {
+    try {
+        const client = new SystemClient(OpenAPI);
+        currentCat.value = await client.category.categoryGet({ id: current.value?.categoryId! });
+    } catch {
+        currentCat.value = undefined;
+    }
+}
+
 watch(() => props.modelValue, async (value) => {
     if (value) {
         const client = new SystemClient(OpenAPI);
         current.value = await client.script.scriptGet({ id: props.entityId! });
-        currentCat.value = await client.category.categoryGet({ id: current.value.categoryId! });
+        await tryGetCategory();
         await getList();
     }
 });
